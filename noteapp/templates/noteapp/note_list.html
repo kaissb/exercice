@@ -1,0 +1,37 @@
+{% extends 'noteapp/main.html' %}
+{% block content %}
+
+
+
+
+{% if request.user.is_authenticated %}
+<p>{{ request.user}}</p>
+<a href="{% url 'logout' %}">Log out</a>
+
+{% else %}
+<a href="{% url 'login' %}"> log in</a>
+{% endif %}
+<hr>
+<h1>My notes</h1>
+<a href="{% url 'note-create' %}">Add note</a>
+<table>
+    <tr>
+        <th>Notes</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for note in notes %}
+    <tr>
+        <td>{{note.title}}</td>
+        <td><a href="{% url 'note-update' note.id%}">update</a></td>
+        <td><a href="{% url 'note-delete' note.id%}">delete</a></td>
+    </tr>
+    {% empty %}
+        <h3>there is no notes here!</h3>
+    {% endfor%}
+</table>
+
+
+
+{% endblock content%}

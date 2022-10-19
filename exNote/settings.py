@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
+    'noteapp.apps.NoteappConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +111,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+# set the default login page
+LOGIN_URL = 'login'
 
 
 # Static files (CSS, JavaScript, Images)

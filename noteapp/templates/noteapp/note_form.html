@@ -1,0 +1,12 @@
+{% extends 'noteapp/main.html' %}
+{% block content %}
+<h3>Note form</h3>
+<a href="{% url 'notes'%}">Go back</a>
+<form method="POST" action="">
+    {%csrf_token%}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+
+</form>
+
+{% endblock content%}
