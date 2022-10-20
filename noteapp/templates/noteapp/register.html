@@ -1,12 +1,23 @@
 {% extends 'noteapp/main.html' %}
 {% block content %}
-<h1>New account</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Register"/>
+<div class="header-bar">
+    <h1>Inscription</h1>
+</div>
 
-</form>
-Already registred !<a href="{% url 'login'%}"> login</a>
+<div class="card-body">
+    <form method="POST">
+        {% csrf_token %}
+        <label>{{form.username.label}}</label>
+        {{form.username}}
+
+        <label>{{form.password1.label}}</label>
+        {{form.password1}}
+
+        <label>{{form.password2.label}}</label>
+        {{form.password2}}
+        <input style="margin-top:10px ;" class="button" type="submit" value="Valider">
+    </form>
+    <p>Vous avez déja un compte ? <a href="{% url 'login' %}">connectez-vous</a></p>
+</div>
 
 {% endblock content%}

@@ -70,3 +70,5 @@ class NoteDelete(LoginRequiredMixin, DeleteView):
     model = Note
     context_object_name = 'note'
     success_url = reverse_lazy('notes')
+
+    
