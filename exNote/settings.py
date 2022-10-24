@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
+    'knox',
     'noteapp.apps.NoteappConfig',
 ]
 
@@ -138,3 +139,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = ['https://exercice-production.up.railway.app']
+
+REST_FRAMEWORK = {
+    'DEFAULT8AUTHENTICATION8CLASSES':('knox.auth.TokenAuthentification',)
+}
