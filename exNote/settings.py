@@ -141,5 +141,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = ['https://exercice-production.up.railway.app']
 
 REST_FRAMEWORK = {
-    'DEFAULT8AUTHENTICATION8CLASSES':('knox.auth.TokenAuthentification',)
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
 }

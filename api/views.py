@@ -13,10 +13,11 @@ from .serializers import RegisterSerializer
 
 @api_view(['GET'])
 def apiOverview(request):
-    api_urls = {'Login':'/userlogin/',
-                'Register':'/userregister/',
-                'logout':'/userlogout/',
-                'List':'/listnote/',
+    api_urls = {'Login':'userlogin/',
+                'Register':'userregister/',
+                'Userdata':'userdata/',
+                'logout':'userlogout/',
+                'List':'listenote/',
                 'Detail':'detailnote/<str:pk>',
                 'create':'addnote/',
                 'update':'updatenote/<str:pk>',
@@ -56,42 +57,66 @@ def userregister(request):
         'token':token
     })
 
+@api_view(['GET'])
+def userdata(request):
+    user = request.user
+    if user.is_authenticated:
+        return Response({
+            'user infos:':{
+                'id':user.id,
+                'username':user.username
+            },
+        })
+    return Response({'error': 'user not authenticated'},status=400)
 
 # Note list, add , update , delete
 @api_view(['GET'])
 def NoteList(request):
-    notes = Note.objects.all()
-    serializer = NoteSerializer(notes, many = True)
-    return Response(serializer.data)
-    
+    user=request.user
+    if user.is_authenticated:
+        notes = Note.objects.filter(user=user.id)
+        serializer = NoteSerializer(notes, many = True)
+        return Response(serializer.data)
+    return Response({'error':'user not authenticated'}, status=400)
 
 @api_view(['GET'])
 def NoteDetail(request,pk):
-    notes = Note.objects.get(id=pk)
-    serializer = NoteSerializer(notes, many = False)
-    return Response(serializer.data)
-    
+    user=request.user
+    if user.is_authenticated:
+        notes = Note.objects.get(id=pk)
+        serializer = NoteSerializer(notes, many = False)
+        return Response(serializer.data)
+    return Response({'error':'user not authenticated'}, status=400)
 
 
 @api_view(['POST'])
 def addNote(request):
-    serializer = NoteSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    user=request.user
+    if user.is_authenticated:
+        serializer = NoteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+    return Response({'error':'user not authenticated'}, status=400)
+
 
 @api_view(['POST'])
-def updateNote(request):
-    note = Note.objects.get(id=pk)
-    serializer = NoteSerializer(instance=note, data=request.data)
+def updateNote(request,pk):
+    user=request.user
+    if user.is_authenticated:
+        note = Note.objects.get(id=pk)
+        serializer = NoteSerializer(instance=note, data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
-   
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+    return Response({'error':'user not authenticated'}, status=400)
 
 @api_view(['DELETE'])
-def deleteNote(request):
-    note = Note.objects.get(id=pk)
-    note.delete()
-    return Response("Delete successful")
+def deleteNote(request,pk):
+    user=request.user
+    if user.is_authenticated:
+        note = Note.objects.get(id=pk)
+        note.delete()
+        return Response("Delete successful")
+    return Response({'error':'user not authenticated'}, status=400)
